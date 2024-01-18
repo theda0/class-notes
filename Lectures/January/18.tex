@@ -25,6 +25,7 @@
 \newtcbtheorem{coroll}%
 	{Corollary}{colback = purple!5!white,colframe = purple!50!black!50!}{corollary}    
 
+
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{corollary}{Corollary}[theorem]
 \newtheorem{lemma}[theorem]{Lemma}
@@ -32,7 +33,132 @@
 
 \pagestyle{fancy}
 \newcommand\size{1}% distance of nodes from center
-
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\mb}[1]{\mathbb{#1}}
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\un}{\cup}
+\newcommand{\ic}{\cap}
 \begin{document}
+\textbf{Today: } Quotients, moreon ideals (primes, maximal ideals), most is expected to be review.
+HW available after class, due before next Thursday's class.\\
+
+\textbf{Observation:} For any ideal $I \subset A$, you can form the quotient group (under +) $A/I$.
+which has a unique ring structure (multiplication) which is exactly what you think it is, which multiplies by representatives of the equivalence classs, i.e.
+\[(a+I)(b+I) = ab+I\]
+Hence there is a surjective quotient ring homomorphism $q: A \to A/I$.
+\textit{Exercise: Check This!}\\
+
+There is a universal property of the quotient, which you can view as a more conceptual formalization of it, as opposed to its explicit construction.
+Let $\phi: A \to B$ be a ring hom such that $I \subset I \subset \text{Ker}(\phi)$. Then there is a unique ring homomorphi $\varphi: A/I \to B$ s.t. the following triangle commutes. (The only possible map maps $a+I$ to $\phi(A)$.\\
+
+Alternatively, this also says that there is a bijection between the set of ring homomorphism whose from $A \to B$ whose Kernel contains $I$ with maps from $A/I \to B$.\\
+
+\begin{clai}{}{}
+There is a bijection between ideals of $A/I$ and ideals of $A$ containing $I$.
+\end{clai}
+
+\textit{Proof: } There are two obvious maps, it is easy to prove they are inverse bijections, this is basically an extension of the corresponding theorem for groups.\\
+
+\begin{lemm}{}{}
+Let $A$ be a nonzero ring. Then the following areequivalent.\\
+\indent (i) $A$ is a field.\\
+\indent (ii) The only ideals of $A$ are $(0)$ and $A$.\\
+\indent (iii) All ring homomorphisms from $A$ to a nonzero ring $B$ are injective.
+\end{lemm}
+\textit{Proof:} $(i) \to (ii):$ It is easy to see that any nonzero ideal must contain $1$, and so is $A$\\
+
+$(ii) \to (iii):$ The kernel of any such ring homomorphism is an ideal $A$. Since $B$ is nonzero, the kernel then must be $(0)$ and so the map must be injective.\\
+
+$(iii) \to (i):$ Since we can always take quotients by ideals, this forces any proper ideal to be $(0)$. 
+Hence for any $a \in A/\{0\}$ we see that $(a) = A$ and so we can find an inverse.\\
+
+\textbf{Observation:} If $I$ and $J$ are ideals, $I \un J$ need not be an ideal. Easy to see by taking some examples in $\Z$ (i.e. $(2) \un (3))$
+. 
+However, we have that the sum of ideals $\{I_s\}_{s \in S}$ is defined as 
+\[ \sum_{s \in S} I_s = \langle \bigcup_{s \in S} I_s \rangle\]
+
+Another observation is that the interseciton of any family of ideals is also an ideal, which is trivially verified.\\
+
+Given ideals $I_1, \dots, I_n \subset A$ their product is defined as 
+\[I_1 \dots I_n = \langle \{a_1\dots,a_n | a_i \in I_i\}\rangle\]
+
+\textbf{Observation: } $I_1\dots I_n \subset I_1 \cap \dots \cap I_n$. In fact, equality is acheived when these ideasl are pairwise comaximal (by Chinese Remainder Theorem) \\
+
+\textbf{Observation: } Sums and products of ideals are commutative, associative and distributive over each other.\\
+
+Two ideals $A$ and $B$ are comaximal if $A+B = (1)$.
+\begin{theo}{Chinese Remainder Theorem (Ring Edition)}{}
+Let $I_1, I_2, \dots, I_n$ be ideals of $A$ which are pairwise comaximal.\\ 
+\indent (1): $I_1\dots I_n = I_1 \cap \dots \cap I_n$.\\
+\indent (2): The natural ring homomorphism
+\[A \to A/I_1 \times \dots \times A/I_n\]
+is surjective with the kernel of the equal to $I_1\dots I_n = I_1 \cap \dots \cap I_n$\\
+\indent (3): The indcued ring homomorphism $A/(I_1 \ic \dots \ic I_n) \to  A/I_1 \times \dots \times A/I_n$ is an isomorphism.
+\end{theo}
+
+\textbf{Prime Ideal Definition: } An ideal $\mathfrak{p} \subset A$ if $\mathfrak{p} \neq A$ and if $ab \in \mathfrak{p} \Longrightarrow $ $a \in \mathfrak{p}$ or $b \in \mathfrak{p}$.\\
+
+\textbf{Maximal Ideal Definition: } An ideal $m \in A$ is maximal if $m \neq A$ and all ideals properly continaing $m$ is equal to $A$.\\
+
+\textbf{Examples:\\}
+A ring $A$ is a domain if $(0)$ is a prime ideal.\\
+In $\Z$, the maximal ideals are all of the form $(p)$ where $p$ is prime, and the prime ideals are $(0)$ and $(p)$.
+
+\begin{clai}{}{}
+\indent (i): $I$ is prime iff $A/I$ is a domain.\\
+\indent (ii): $I$ is maximal iff $A/I$ is a field.
+\end{clai}
+
+\begin{coroll}{}{}
+	Maximal ideals are also prime.
+\end{coroll}
+
+The bijection between ideals of $A$ containing $I$ and ideals of $A/I$ stays the same when adding the adjectives "prime" and "maximal". Using the third isomorphism theorem where $(A/I)/(J/I)  = A/J$.\\
+
+\begin{lemm}{}{}
+Every ring $A$ has a maximal ideal, or equivalently, every ideal $a$ is contained in some maximal (and hence prime) ideal.
+\end{lemm}
+
+\textit{Proof:}  This is a standared application of Zorn's Lemma.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \end{document}
