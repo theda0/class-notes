@@ -1,0 +1,181 @@
+\documentclass{article}
+
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}
+\usepackage{array}
+
+\newtcbtheorem{theo}%
+	{Theorem}{colback = blue!5!white,colframe = blue!50!black!50!}{theorem}
+	
+\newtcbtheorem{lemm}%
+	{Lemma}{colback = green!5!white,colframe = green!50!black!50!}{lemma}
+
+\newtcbtheorem{clai}%
+{Claim}{colback = blue!5!white,colframe = blue!50!black!50!}{claim}
+
+\newtcbtheorem{coroll}%
+	{Corollary}{colback = purple!5!white,colframe = purple!50!black!50!}{corollary}    
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+
+\pagestyle{fancy}
+\newcommand\size{1}% distance of nodes from center
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\mb}[1]{\mathbb{#1}}
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\un}{\cup}
+\newcommand{\ic}{\cap}
+\begin{document}
+\textbf{Today: Modules} \\
+
+\textbf{Definition:} An $A-$module is an abelian group $M$ equipped with a scaling operation $A \times M \to M$ (which we write as $ax$ for $a \in A$) such that \\
+\indent \textbf{(1)} $A \times M \to M$ is bilinear $(a+b)x = ax + bx$ and $a(x + y) = ax + ay$. \\
+\indent \textbf{(2)} Unital: $1x = x$\\
+\indent \textbf{(3)} Associative: $(ab)\cdot x = a(b\cdot x)$\\
+
+\textbf{Examples: } $\Z-$modules are just abelian groups.\\
+
+For $K$ a field, a $K-$module is precisely a $K$-vector space\\
+
+For $\phi: A \to B$ a ring hom, then the ring $B$ has a natural $A-$module structure, by 
+\begin{align*}
+	A \times B &\to B\\
+	(a,x) &\to \phi(a)\cdot x
+\end{align*}
+
+\textbf{Definition:} Given $A$-modules, $M$ and $N$, and $A-$module homomorphism $f: M \to N$ is agroup homomorphism such that $\forall a \in A, x \in M$ we have $f(ax) = af(x)$.\\
+
+Given an $A-$module homomorphism $f: M \to N$, then \\
+\indent \textbf{(1)} The $A-$mod str on $M$ restricts to an $A-$mod str on $\text{Ker}(f) \subset M$.\\
+\indent \textbf{(2)} The $A-$mod str on $N$ restricts to one on $\text{Im}(f) \subset N$.\\
+\indent \textbf{(3)} Then the cokernel $\text{Coker}(f)  = N/\text{Im}(f)$ has as unique $A-$mod str that makes $N \to \text{Coker}(f)$ an $A-$mod hom.\\
+
+For non-commutative rings there is also a theory of modules, in this case, we would have to make a distinction between our definition (A left module) and perhaps modules with actions defined on the left and right.\\
+
+\textbf{Example: } For $K$ a field (or a ring) and $G$ a group. The group ring $K[G]$ is the (noncommutative) ring 
+\[K[G] = \{\text{functions $\phi: G \to K$
+} | \text{$\phi(g) = 0$ for only finitely many $G$.}\}\]
+
+\textbf{Exercise:} Convince yourself that a $K[G]$ module really the same as a representation of $G$ on a $K$-vector space.
+
+\textbf{Definition:} $M$ an $A-$module, a subomodule $N \subset M$ is a subgroup that is closed under scaling.\\
+
+\textbf{Examples:} Kernel and image, also ideals $I$ are submodules of a ring $A$ (as a module over itself).\\
+
+Given $A$-modules $\{M_s\}_{s \in S}$ then the direct sum and product 
+\[\bigoplus_{s \in S}M_s \quad \quad \prod_{s\ inS} M_s\]
+have a natural $A-$ module structure, where scaling is done component-wise.\\
+
+\textbf{Definitions: (internal hom)} Given $A$-modules $M,N$, the set 
+\[Hom_A(M,N) = \{\text{$A$-mod homs $f:M \to N$}\}\]
+has the structure of an $A$-module with everything done component-wise w/
+\[(f+g)(x) = f(x) + g(x)\]
+and 
+\[(af)(x) = a \cdot f(x)\]
+
+\textbf{Functoriality:} Given $m: M \to M'$ and $n:N \to N'$ we have the contravariant functor $m^*$ given by pre-composing and the covariant functor $n_*$ given by post-composing.\\
+
+\textbf{Definition (Exactness): } Let 
+\[ \dots \to M_{i+1} \to^{d_{i+1}} M_i \to^{d_i} M_{i-1} \to \dots\]
+is called a (chain) complex if $d_id_{i+1} = 0$ ($d^2 = 0$)
+and is called exact if $\text{Ker}(d_i) = \text{Im}(d_{i+1})$.\\
+
+A Short Exact Sequence (SES) is an exact sequence of the form 
+\[0 \to M \to N \to P \to 0\]
+
+Examples:\\
+\indent (1) $0 \to M \to^f N$ is exact iff $f$ is injective, dually, $M \to^f \to N \to 0$ is exact iff $f$ is surjective.\\
+
+\indent (2) For any mod hom $f: M \to N$ we have exact sequences 
+\[0 \to \text{Ker}(f) \hookrightarrow M \to^f N \to \text{Coker}(f) \to 0\]
+\[0 \to \text{Ker}(f) \hookrightarrow M \to^f \text{Im}(f) \to 0\]
+\[0 \to \text{Im}(f) \hookrightarrow N \to \text{coker}(f) \to 0\]
+There is also 
+\[0 \to M \to M \oplus N \to N \to 0\]
+Exact sequences of this form are called split. 
+A non-example is 
+\[0 \to \Z \to^{\cdot 2} \Z \to \Z/2 \to 0\]
+We may ask when is an exact sequence split?
+
+\textbf{Splitting Lemma: } Let 
+\[0 \to M \to^f N \to^g \to P \to 0\]
+be a SES of $A$-mods.\\
+\indent \textbf{(1)} There's a section $s: P \to N$ s.t. $g \circ s = \text{id}_p$.\\
+
+\indent \textbf{(2)} There's an $r: N \to M$ s.t. $r \circ f = \text{id}_M$\\
+
+\indent \textbf{(3)} There are $r$ and $s$ as in (1) and (2) such that 
+\[fr + sg = \text{id}_N\]
+
+\indent \textbf{(4)} There's an isomorphism $N \cong M \oplus P$ making the natural diagram commute\\
+
+The functors $Hom_A(M,-)$ and $Hom_A(-,M)$ don't generally preserve SES.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
