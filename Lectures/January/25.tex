@@ -1,0 +1,228 @@
+\documentclass{article}
+
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}
+\usepackage{array}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newtcbtheorem{theo}%
+	{Theorem}{colback = blue!5!white,colframe = blue!50!black!50!}{theorem}
+	
+\newtcbtheorem{lemm}%
+	{Lemma}{colback = green!5!white,colframe = green!50!black!50!}{lemma}
+
+\newtcbtheorem{clai}%
+{Claim}{colback = blue!5!white,colframe = blue!50!black!50!}{claim}
+
+\newtcbtheorem{coroll}%
+	{Corollary}{colback = purple!5!white,colframe = purple!50!black!50!}{corollary}    
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\mb}[1]{\mathbb{#1}}
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mk}[1]{\mathfrak{#1}}
+\newcommand{\un}{\cup}
+\newcommand{\ic}{\cap}
+\pagestyle{fancy}
+\newcommand\size{1}% distance of nodes from center
+
+\begin{document}
+\section{Localization}
+
+\textbf{Motivating Question:} What's the formal algebraic procedure to obtain $\Q$ from $\Z$?.
+
+\begin{definition}
+	(Provided it exists) Let $A$ a ring, $S \subset A$ a subset. 
+	The localization of $A$ at $S$ is a ring $A[S^{-1}]$ (or $S^{-1}A, A_S$) together with a ring hom $j:A \to S^{-1}A$ satisfying:\\
+	\indent \textbf{(1)} $j(S) \subset (S^{-1}A)^{\times} \forall$\\
+	\indent \textbf{(2)} It is initial, i.e. given $\phi: A \to B$ st $\phi(S) \subset B^{\times}$, there's a unique map $\overline{\phi}$ which factors through $j$.
+	This basically establishes a bijection between ring homs $S^{-1}A \to B$ and ring homs which maps $S$ to units in $B$.
+\end{definition}
+
+\textbf{Observations: } if $S \subset T \subset A$ there is from the universal property a map $S^{-1}A \to T^{-1}A$.\\
+
+In addition, $\forall s,t \in S$ the element $j(st)$ is a unit in $S^{-1}A$ since $j(st) = j(s)j(t)$
+which are both units. 
+(This makes it equivalent to the usual definition where $S$ is multiplicatively closed)
+
+\begin{definition}
+	A subset $S \subset A$ is multiplicative (closed) if it is closed under products (including the empty product, hence $1 \in S$)
+\end{definition}
+
+\begin{definition}
+	$S \subset A$ any subset, the multiplicative closure of $S$, $\overline{S}$ is the smallest multiplicative set containing $S$.
+This can be explicitly described as 
+\[\overline{S} = \{s_1,\dots, s_n \,|\, s_1, \dots, s_n \in \{1\} \un S\}\]
+\end{definition}
+ 
+\begin{example}
+	\[\overline{\{x\}} = \{1, x, x^2, \dots \} \quad \quad \mb{P} \subset \Z, \quad \overline{\mb{P}} = \Z_{>0}\]
+\end{example}
+
+\textbf{Reformulation of Lemma:} $j: A \to S^{-1}A$ carries $\overline{S}$ to units.
+
+\begin{coroll}{}
+	For any $S \subset A$, the inclusion $S \subset \overline{S}$ induces an isomorphism of $A$-algebras
+	\[\phi_{S, \overline{S}}: S^{-1}A \to \overline{S}^{-1}A\]
+\end{coroll}
+
+\begin{proof}
+	Since $j_s: A \to AS^{-1}$ sends $\overline{S}$ to units, by the universal property this gives us a map 
+	\[\psi: \overline{S}^{-1}A \to S^{-1}A\]
+We the claim that $\phi$ and $\psi$ are inverses.
+\end{proof}
+
+\begin{example}
+	if $a \in A$ is nilpotent $a^n = 0$, then $A[a^{-1}] = 0$, since we will invert all powers of $a$, and hence 0.
+\end{example}
+
+\begin{example}
+	$A^{-1}$ is multiplicative, the set of nonzero divisors, and complements of prime ideals are multiplicative.
+\end{example}
+
+\begin{lemm}{}
+	The following are equivalent:\\
+	\indent \textbf{(1):} $I$ is prime \\
+	\indent \textbf{(2):} $A - \{I\}$ is mutliplicative
+\end{lemm}
+ \begin{proof}
+ 	Straightforward from definitions
+ \end{proof}
+ 
+ \textbf{The Construction: } The universal property of polynomial rings: $A$ a ring, $S$ a set.
+ For every $A-$algebra $B$ there are inverse bijections between
+ \[\{\text{$A$-algebra homs $A[x_s, s \in S]$}
+ \} \cong \{ \prod_{s \in S} B\}\]
+ the maps sends an $A$-algebra homomorphism to the tuple of the images of $x_s$ and inversely for a tuple, there is a unique map fixing the $A$-algebra and mapping $\{x_s\}_{s \in S}$ to the tuple.\\
+
+ $S \subset A$ a subset.
+ The localization $A[S^{-1}]$ is the $A-$algebra 
+ \[A[S^{-1}] = A[x_s|s \in S]/ \langle (1 - x_ss)| s \in S\rangle\]
+ By definition, $A \to A[S^{-1}]$ sends $S$ to units.\\
+
+ By UP of $A[x_s|s \in S],$ $\phi$ extends uniquely to a map 
+ \[\overline{\phi}: A[x_s|s \in S] \to B\]
+ mapping $x_s \to \phi(s)^{-1}$.
+ Since $1 - \phi(s)\phi(s)^{-1} = 0$, the UP of the quotient gives us a map.
+ Verifying uniqueness is easy, we see that since $(1 - sx_s)$ must be sent to $0$, then $x_s$ must be sent to $\phi(s)^{-1}$ and inverses are unique.\\
+ 
+\textbf{A Second Construction: } For $S \subset A$ a multiplicative set, we define an equivalence relation on the set of tuples 
+\[(a,s), a \in A, s \in S\]
+where $(a,s) \sim (a',s')$ iff $\exists t \in S$ such that 
+\[t(as' - a's) = 0\]
+\noindent The localization
+\[A[S^{-1}] = A \times S/ \sim\]
+Addition and multiplation correspond to "adding and multiplying fractions"
+\[ \frac{a}{s} + \frac{b}{t} = \frac{at + bs}{st}, \quad \quad \frac{a}{s} \frac{b}{t} = \frac{ab}{st}\]
+and the specified ring hom $j:A \to A[S^{-1}]$ maps $a \to \frac{a}{1}$
+and for all $s \in S$, $ \frac{1}{s}$ is the inverse of $ \frac{s}{1}$.
+
+\begin{example}
+	\indent $A[x^{\pm 1}] := (A[x])[x^{-1}]$ is called the Laurent polynomial
+\end{example}
+
+\begin{example}
+	$\Z[(\Z/0)^{-1}] \cong \Q$
+\end{example}
+
+\begin{example}
+	$\Z[] \frac{1}{n} \cong \{ \frac{m}{n^i} | m \in Z\} \subset \Q$
+
+\end{example}
+
+\begin{definition}
+	$\mk{p} \subset A$ prime. The localization at $\mk{p}$ is 
+	\[ A_{\mk{p}} := A[(A/\mk{p})^{-1}]\]
+\end{definition}
+
+\begin{example} $\Z_{\langle p\rangle} = \{ \frac{m}{n} | m,n \in \Z, n \notin \langle n\rangle\}$
+\end{example}
+
+\textbf{Features:} 
+\[\Z_{\langle p\rangle}/\langle p\rangle \cong ]mb{F}_p\]
+\[\Z_{\langle p\rangle}[ \frac{1}{p}] \cong \Q\]
+\subsection{Localizing Modules}
+$M$ an $A-$module, $S \subset A$ a subset.
+The following are equivalent.\\
+\textbf{(1)} $M$ admits an $A[S^{-1}]$-module str compatible with the $A$-module str.\\
+\textbf{(2)} $\forall s \in S$, the map $M \to M$ mapping $x \to sx$ is a bijection (we can then define multiplying by $s^{-1}$ as the inverse of this bijection).
+In this case, the $A[S^{-1}]$-mod str is unique.\\
+
+\textbf{Upshot:} It also makes sense to localize modules $M \to M[S^{-1}]$ universal $A-mod$ hom to an $A-$mod where $S$ acts invertibly\\
+
+Can show that 
+\[M[S^{-1}] = M \otimes A[S^{-1}]\]
+
+$A$ a ring, $S \subset A$, $I \subset A$ an ideal,the saturation is 
+\[I^S := \{a \in A | \exists s \in S \text{ s.t. } as \in I\}\]
+$I$ is saturated if $I = I^S$
+
+\textbf{Propositions:} There is a bijection between saturated ideals $I \subset A$ and ideals $j \subset A[S^{-1}]$. 
+Primes in the localization correspond to primes in $A$ whose intersection with $S$ is empty.
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+
+
+
+
+
+ 
+ 
+ 
+ 
+
+
+
+
+
+\end{document}
