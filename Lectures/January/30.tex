@@ -1,0 +1,207 @@
+\documentclass{article}
+
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}
+\usepackage{array}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newtcbtheorem{theo}%
+	{Theorem}{colback = blue!5!white,colframe = blue!50!black!50!}{theorem}
+	
+\newtcbtheorem{lemm}%
+	{Lemma}{colback = green!5!white,colframe = green!50!black!50!}{lemma}
+
+\newtcbtheorem{clai}%
+{Claim}{colback = blue!5!white,colframe = blue!50!black!50!}{claim}
+
+\newtcbtheorem{coroll}%
+	{Corollary}{colback = purple!5!white,colframe = purple!50!black!50!}{corollary}    
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\mb}[1]{\mathbb{#1}}
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mk}[1]{\mathfrak{#1}}
+\newcommand{\un}{\cup}
+\newcommand{\ic}{\cap}
+\pagestyle{fancy}
+\newcommand\size{1}% distance of nodes from center
+
+\begin{document}
+\textbf{Today: More on localization, the spectrum of a ring}.\\
+
+\textbf{Recall:} $\mk{p} \subset A$ prime, we write $A_{\mk{p}} := A/[(A/ \mk{p})^{-1}]$.
+We observe that $A_{\mk{p}}$ has a unique maximal ideal: $\mk{p} A_{\mk{p}}$, we prove this by noting the bijection between primes not intersecting $A/\mk{p}$ and primes in the localization $A_{\mk{p}}$.\\
+
+\textbf{Notation:} The residue field of $\mk{p}$ is $\kappa(\mk{p}) = A_{\mk{p}}/\mk{p}A_{\mk{p}}$
+
+\begin{definition}
+	A ring $A$ is local if $A$ has a unique maximal ideal $\mk{m}$, often  "let $(A, \mk{m})$ be a local ring". ETA The Zariski Topology will explain why these are local. \\
+
+	Here's a small digression about total quotient rings.
+\begin{definition}
+	The totla quotient ring of a ring $A$ is 
+	\[\text{Quot}(A) := A[\text{nzd}(A)^{-1}]\]
+\end{definition}
+
+\textbf{Observation:} $A$ is a domain iff $\text{nzd}(A) = A/\{0\}$, so $\text{Quot}(A)$ is a field as we inverted all nonzero elements.
+This is often called the fraction field of $A$ and denoted by $\text{Frac}(A)$.
+Moreover, in this case, the universal property mpa $A \to \text{Quot}(A)$ is injective.\\
+
+\textbf{UP of Fraction Fields} $A$ a domain, For any injection $\phi: A \hookrightarrow K$ where $K$ is afield there is a unique extension
+\[\overline{\phi}: \text{Frac}(A) \to K\]
+that commutes with the map $A \to \text{Quot}(A)$
+In other words, "the fraction field is the smallest field that contains $A$".\\
+
+\textbf{Note:} For $\mk{p} \subset A$ prime, or $A/\mk{p}$ is a domain, So $\text{Quot}(A/\mk{p})$ is a field. 
+This begs a question, how do the two fields associated with $\mk{p}$, $A_{\mk{p}}/\mk{p}$ and Quot()
+$A/\mk{p}$ compare?\\
+
+\textbf{Proposition: }$\mk{p} \subset A$ prime.
+There is a unique iso Quot($A/\mk{p}) \to A_{\mk{p}}/\mk{p}$ fitting into a commutative diagram.\\
+
+\begin{proof}
+	\text{Quot}($A/\mk{p}$) is the universal $A$-algebra in which $\mk{p}$ is killed and $A/\mk{p}$ becomes invertible.\\
+
+	On the other hand, $A_{\mk{p}}/\mk{p}$ is the universal $A-$algebra in which $A/\mk{p}$ becomes invertible and $\mk{p}$ is killed. 
+	These two objects have the same universal property and so are isomorphic.
+\end{proof}
+
+ 
+\section{Spectrum of a Ring}
+
+The geometry of rings, we want to study "spaces cut out by solutions to systems of polynomial equations".
+\begin{example}
+We have the cuspidal cubic	$V(y^2 - x^3) := \{(x,y) \in \C^2 \,|\, y^2 - x^3 = 0\}$, the nodal cubic is $V(y^2 - (x^3 - x^3))$
+\end{example}
+
+The idea is that given some polynomial $f \in \C[x_1, \dots, x_n]$ we should study the ring
+\[\C[x_1, \dots, x_n]/\langle f \rangle\]
+where $f = 0$ is universally solved.
+In whatever "space" is associated to $\C[x_1, \dots, x_n]$, we should have closed vanishing sets associated to any polynomial $f \in \C[x_1, \dots, x_n]$.\\
+
+From an algebraic geo point of view, it might be easier to define the topology via the closed sets as opposed to the open sets which is usually standrard.
+I won't give the definition here since it's rather standard, just take the complements with the standard open set definition.\\
+
+\begin{definition}
+	$A$ a ring \\
+	\indent $\text{Spec}(A) := \{\text{primes } \mk{p} \subset A\}$\\
+	\indent $S \subset A$, the vanishing set of $S$ is \[V(S) = \{\mk{p} \in \text{Spec}(A) \, |\, \mk{p} \supset S\} = \{\mk{p} \, |\, \text{S is annhilated by  $A \to A/\mk{p}$
+}\}\]
+\end{definition}
+
+Observation: $V(S) = V(\langle S \rangle)$.\\
+We shall denote Idl($A$) as the set of ideals of $A$.\\
+\textbf{Proposition:} The map 
+\[(\text{Idl}(A), \subset) \to (\text{sub(Spec}(A))), \subset\]
+reverses inclusion. \\
+
+Now note that \\
+\indent (1) $V(0) = \text{Spec}(A), \quad V(1) = \emptyset$\\
+\indent (2) Given ideals $\{I_s\}_{s\in S}$, then 
+\[V(\bigcup I_s) = V(\sum I_s) = \bigcap_{s \in S} I_s\]
+\indent $I,J \subset A$ ideals, then 
+\[V(I \ic J) = V(IJ) = V(I) \un V(J)\]
+
+\begin{definition}
+	The Zariski Topology on Spec($A$) is the topology with the closed sets equal to $\{V(I), I \in \text{Idl}(A)\}$ which defines a topology as demonstrated above.
+\end{definition}
+
+\begin{lemm}{}{}
+	For $\mk{p} \subset A$ a prime, and $I_1, \dots, I_n \subset A$ ideals, TFAE\\
+	\indent (1) $\mk{p} \supset I_1\dots I_n$\\
+	\indent (2) $p \supset I_1 \ic \dots \ic I_n$\\
+	\indent (3) $\mk{p}$ contains some $I_k$.
+\end{lemm}
+
+Question: Can we go back from a closed subset of Spec$(A)$ and go back to an ideal of $A$.
+Yes, this leads us the definition of a radical.
+By definition, 
+\[V(I) = V(\bigcap_{\mk{p} \supset I}\mk{p}) = V(r(I))\]
+Big word: Scheinnullstellenstatz, for an ideal $I \subset A$
+\[\bigcap_{\mk{p} \supset I}\mk{p} = \{a \in A \, | \, \exists n > 0, a^n \in I\}\]
+Other notations for the radical are either $\text{rad}(I), \sqrt{I},$ or $\mk{r}(I)$, and $I$ is radical if $\mk{r}(I)  = I$.\\
+
+Note that prime implies radical, and that the radical operation is idempotent.
+Also $I \subset A$ is radical iff $I$ is some intersection of primes.
+
+\begin{example}
+	$\langle n \rangle \subset \Z$ is radical iff $n$ is squarefree.
+\end{example}
+
+We then have that \\
+\indent (1) $rad(I(s)) = I(s)$, i.e. $I(s)$ is radical.\\
+\indent (2) $I(V(a)) = rad(a) \rightarrow V(a) = V(rad(a))$\\
+\indent (3) $V(I(s)) = \overline{S}$\\
+\indent (4) there is abijection between radical ideals in Idl$(A)$ and closed sets in Spectrum(A).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+\end{definition}
+
+
+
+
+
+
+
+
+
+
+\end{document}
