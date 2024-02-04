@@ -1,0 +1,187 @@
+\documentclass{article}
+
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}
+\usepackage{array}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newtcbtheorem{theo}%
+	{Theorem}{colback = blue!5!white,colframe = blue!50!black!50!}{theorem}
+	
+\newtcbtheorem{lemm}%
+	{Lemma}{colback = green!5!white,colframe = green!50!black!50!}{lemma}
+
+\newtcbtheorem{clai}%
+{Claim}{colback = blue!5!white,colframe = blue!50!black!50!}{claim}
+
+\newtcbtheorem{coroll}%
+	{Corollary}{colback = purple!5!white,colframe = purple!50!black!50!}{corollary}    
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\mb}[1]{\mathbb{#1}}
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mk}[1]{\mathfrak{#1}}
+\newcommand{\un}{\cup}
+\newcommand{\ic}{\cap}
+\pagestyle{fancy}
+\newcommand\size{1}% distance of nodes from center
+
+\begin{document}
+\textbf{Today: More on the topology of the Spec}
+Recall last time we defined Spec($A$) as well as the closed sets of the topology on it and 
+\[V(S) = V(\langle S \rangle) \quad ,\quad V(I) = V(\text{rad}(I))\]
+\begin{definition}
+	A ring $A$ is a discrete valuation ring (DVR) if $A$ is a PID and has a unique nonzero prime ideal $\mk{m}$.
+\end{definition}
+
+Name comes from number theory, 10 or so equivalent definitions on it. 
+Kind of the simplest thing next to a field, with only prime ideal, Spec $(A)$ is rather simple. 
+Note that it is also a local ring
+
+\begin{example}
+	$(A, \mk{m})$ DVR, primes are $\langle 0 \rangle>$ and $\mk{m}$. Spec($A$) has two elements, with only one closed point, the Sierpinski Space. 
+	Note that it is not Hausdorff.
+	Exercise in PSet 4, Spec($A$) is Hausdorff $\Longleftrightarrow$ every prime is maximal
+\end{example}
+
+\begin{example}
+	$K$ and algebraically closed field, primes of $k[t]$ are all of the form $\langle 0 \rangle$ or $(t - \alpha)$ for $\alpha \in K$.
+\end{example}
+
+\begin{example}
+	$S$ a set, $\{K_s\}_{s \in S}$ a set of fields indexed by $s$.
+	Then there's a homeomorphism
+	\[\text{Spec}(\prod_{s \in S}K_s) \cong \beta(S)\]
+	Where $\beta$ is the Cech-Stone compactification of $S$ with the discrete topology, in bijection with the set of ultrafilters on $S$.	
+\end{example}
+
+\textbf{Recall:} Given $f \in A$, $D(f) = \text{Spec}(A)/V(f)$ or the equivalent quotient definition.
+Note that from the definition of a prime ideal
+\[fg \notin \mk{p} \Longleftrightarrow [f \notin \mk{p} \text{ and } g \notin \mk{p}]\]
+So
+\[ D(f) \ic D(g) = D(fg)\]
+
+\begin{lemm}{}{}
+	Given elements $\{g_{\lambda}\}_{\lambda \in \delta}$ and $f$ of $A$,
+	\[D(f) \subset \bigcup_{\lambda \in \delta} D(g_{\lambda}) \text{ iff } f \in \text{rad}(I)
+	\]
+\end{lemm}
+
+\begin{proof}
+	\[D(f) \subset \bigcup_{\lambda \in \delta} D(g_{\lambda}) \Longleftrightarrow V(f) \supset V(I) = V(\text{rad}(I))	\]
+whcih is true iff 
+\[\text{rad(f)} \subset \text{rad(I)} \Longleftrightarrow \langle f \rangle \subset \text{rad}(I)\] 
+\end{proof}
+
+Apparently big relation between logic and commutative algebra/ alg geo, a recent advancement echoing this is the Andre-Ort Conjecture
+
+\begin{coroll}{}{}
+	\[\text{Spec}(A) = \bigcup_{\lambda \in \delta} D(g_{\lambda}) \text{ iff } \langle g_{\lambda} \, |\, \lambda \in \delta\rangle = A\]
+\end{coroll}
+
+\textbf{AG terminology: } A topological space $X$ is quasicompact if every open cover of $X$ has a finite subcover.
+Especially in France and Bourbaki, compact would normally mean quasicompact and Hausdorff.\\
+
+$A$ a ring. Then \\
+\indent (1) The opens $\{D(f)\}_{f \in A}$ form a basis for the topology on Spec($A$).\\
+\indent (2) Each $D(f)$ is quasicompact.\\
+\indent (3) $\text{Spec}(A) = D(1)$ is compact.\\
+
+Proof of (1): We have 
+	\[V(I) = \bigcap_{f \in I} V(f) \Longrightarrow D(I) = \bigcup_{f \in I} D(f)\]
+
+	Proof of (2): 
+
+\section{Quasiseparatedness}
+
+\begin{definition}
+	A top space $X$ is quasiseparated if forall qc opens $U,V \subset X$, then $U \ic V$ is also quasicompact.\\
+
+	Lemma: $X$ a top space. Assume there exists a basis $\beta$ of $X$ st.\\
+	(1) Every $b \in \beta$ is quasicompact.\\
+	(2) $\beta$\\
+Then $X$ is quasiseparated.
+\end{definition}
+
+\begin{coroll}{}{}
+ For any ring $A$, Spec($A$) is qcqs.
+\end{coroll}
+
+\section{Specializations}
+
+\begin{definition}
+	$X$ a topological space.\\
+	(1) Given $s, \eta \in S$ we say that $s$ is a specialization of $\eta$ and $\eta$ is a generization of $s$ if $s \in \overline{\{\eta\}}$. 
+	Often written s squigglyline to $s$ $\eta$\\
+	(2) $\eta \in X$ is generic if $\overline\{\eta\} = X$.
+\end{definition}
+
+Have a predorder w/ underlying set $X$ and $s \leq \eta$ of $s \in \overline{\{\eta\}}$
+Since $\overline{\mk{p}} = \{\mk{q} \,|\, \mk{q} \supset \mk{p}\}$ so this $\leq$ is a partial order on $\text{Spec}(A)$\\
+
+\section{Irreducibility}
+
+\begin{definition}
+	$X$ a nonempty topological space. $X$ is irreducible if $X$ cannot be written as a 
+	\[X = Z_1 \un Z_2 \]
+\end{definition}
+with $Z_1,Z_2$ proper closed sets.
+
+\begin{lemm}{}{}
+	$X \neq \emptyset$, TFAE:\\
+	(1) $X$ is irreducible\\
+	(2) $\forall U,V \subset X$, nonempty opens, $U \ic V \neq \emptyset$.\\
+	(3) Every nonempty $U \subset X$ is dense.\\
+	(4) Every nonempty open of $X$ is connected.\\
+	(5) Every nonempty open of $X$ is irreducible.
+\end{lemm}
+
+\begin{lemm}{}{}
+	$S \subset X$ is irreducible iff $\overline{S} \subset X$ is irreducible.
+\end{lemm}
+
+\begin{lemm}{}{}
+	$(S_{\lambda})_{\lambda \in \delta}$ an increasing chain of irred subsets of $X$.
+	Then $\bigcup_{\lambda \in \delta} S_{\lambda}$ is irreducible.
+\end{lemm}
+
+Note tha above and Zorn's says that every irred subset is contained in a maximal one.
+
+\begin{lemm}{}{}
+	The map Spec(A) to irred closed subsets, sending $\mk{p} \to \overline{\{\mk{p}\}} = V(\mk{p})$ is a bijection. 
+	As a consequence,\\
+	(1) Every irred closed subset of Spec($A$) has a unique generic point (this is called being sober)\\
+	(2) minimal primes under this correspond to irreducible components.\\
+
+	Proof the first is immediate from the bijection.
+\end{lemm}
+
+
+
+\end{document}
