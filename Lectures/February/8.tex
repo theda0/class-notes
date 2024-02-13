@@ -1,0 +1,155 @@
+\documentclass{article}
+
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}
+\usepackage{array}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newtcbtheorem{theo}%
+	{Theorem}{colback = blue!5!white,colframe = blue!50!black!50!}{theorem}
+	
+\newtcbtheorem{lemm}%
+	{Lemma}{colback = green!5!white,colframe = green!50!black!50!}{lemma}
+
+\newtcbtheorem{clai}%
+{Claim}{colback = blue!5!white,colframe = blue!50!black!50!}{claim}
+
+\newtcbtheorem{coroll}%
+	{Corollary}{colback = purple!5!white,colframe = purple!50!black!50!}{corollary}    
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+
+\pagestyle{fancy}
+\newcommand\size{1}% distance of nodes from center
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\mb}[1]{\mathbb{#1}}
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mk}[1]{\mathfrak{#1}}
+\newcommand{\un}{\cup}
+\newcommand{\ic}{\cap}
+\begin{document}
+
+\textbf{Last Time:} Finished up everything we will talk about Spec for the time being, next homework will still be about the properties of Spec.
+Next few lectures will focus on Category theory/review, plugged his friend Riehl's book (goated book btw)\\
+
+Question from Vihaan, is there a characterization of the Spec map from an inclusion of rings?
+Example, take $A$ an integral domain and consider its inclusion into $\text{Frac}(A)$, then $\text{Spec}(B) \to \text{Spec}(A)$ just picks out the 'generic' point.
+Also in general, inclusion of number rings can be very complicated.
+
+\section{Category Theory}
+We will first not worry about Set theory paradoxes, this won't effect our intuition and is easily solved (i.e. considering locally small categories or not worrying about the category of sets)
+
+\begin{definition}
+	A category $C$ consists of:\\
+	\indent (0) A collection Obj(C) of objects of $C:X,Y,Z$\\
+	\indent (1) A collection of morphisms $f,g$ so that each morphism has a specified source(domain) and the target (codomain) $f: X \to Y$\\
+	\indent For each object $X$ there's a specified identity $\text{id}_x: X \to X$\\
+\indent Given $f: X \to Y$ and $g: Y \to Z$ ther;s a specified composite $gf: X \to Z$ that is\\
+\indent Unital: $f \text{id}_x = f = \text{id}_yf$\\
+\indent Associative $(hg)f = h(gf)$ for any composable homomorpshims.
+\end{definition}
+
+We will often denote $\text{Hom}(X,Y)$ or $C(X,Y)$ the set of morphisms $f: X \to Y$.
+
+\begin{example}
+	We have the "concrete" categories, i.e. Set, Top, Grp, Ring, Mod(A) with the "obvious" morphisms(all functions, continuous fns, group homs, ring homs, A-mod homs) respectively.
+\end{example}
+
+\begin{example}
+	$(P, \leq)$ a poset category with $\text{Hom}_p(p,q)$ equal to $*$ (a unique morphism) when $p \leq q$ and none otherwise.
+\end{example}
+
+\begin{definition}
+	A map $f:X \to Y$ is an isomoprhims if there exists a $g: Y \to X$ st
+	\[gf = \text{id}_x \text{ and } fg = \text{id}_y\]
+\end{definition}
+
+\begin{example}
+In Set, Grp, Ring, Mod(A) an isomorphism is precisely a morphism that is bijective.	
+\end{example}
+
+However, there is the standard nonexample in Top, where 
+\[[0,1) \to S^1 \quad : \quad x \to e^{2 \pi i x}\]
+which is a continuous bijection with no inverse.
+
+How do we define a relation (or even a morphism) between two categories
+
+\begin{definition}
+	For $C,D$ categories, a functor $F: C \to D$ is \\
+\indent (0) an assignment $F: \text{Obj}(c) = \text{Obj}(d)$\\
+\indent An assignment on maps $[f:X \to Y] \to [F(f): F(X) \to F(Y)]$ satisfying\\
+\[F(gf) = F(g)F(g) \quad, \quad F(\text{id}_x) = \text{id}_{F(x)}\]
+
+\end{definition}
+
+F
+\begin{definition}
+	For $C$ a category, the opposite category of $C$ is the category $C^{\text{op}}$ with\\
+	\indent (0)$\text{Obj}(C^{\text{op}}) = \text{Obj}(C)$\\
+	\indent All the arrows are "reversed", along with the sens in composing.
+\end{definition}
+
+\begin{example}
+	We have a contravariant functor $\text{Spec}: \text{Ring}^{\text{op}} \to \text{Top}$
+	as was defined earlier when discussing the Spectrum, where we showed functoriality
+\end{example}
+
+\begin{example}
+	We have a class of Forgetful Functors (Group, Ring, A-mod) where we simply forget the extra structure.
+\end{example}
+
+\begin{example}
+	$C$ any category, there is a functor $\text{Hom}_C(-,-): C^{op} \times C \to \text{Set}$
+	which takes $(X,Y) \to \text{Hom}_C(X,Y)$
+\end{example}
+
+\begin{example}
+	$A$ a ring, the above functor refines to $\text{Mod}(A)^{op} \times \text{Mod}(A) \to \text{Mod}(A)$
+\end{example}
+
+One may ask if there are functors that add structure, well the answer is yes as you probably guessed.
+Consider the functors $\text{Set} \to \text{Top}$ which sends a set $X$ to the topological space with the discrete and indiscrete topolgy, these are respectively left and right adjoint to the forgetful functor on  Top.\\
+
+Brief tangent on how left/right adjoints preserve colimits/limits, but this will be elaborated on in future lectures.
+
+\begin{definition}
+	$F,G: C \to D$ A natural transformation $\alpha: F \Rightarrow G$ or $\alpha: F \to G$ consists of morphsism $\alpha(x): F(x) \to F(x)$ for all $x \in \text{Obj}(C)$ such that the following commutative diagram commutes.
+\end{definition}
+We observe that natural transformations compose by "vertical stacking".
+
+\begin{example}
+	$K$ a field, the standard example (at least fomr Riehl) is that there is a natural transformation from $k$-Vector-spaces to itself by taking the "double dual".
+	This also applies construction also applies to more general $A$-modules. 
+	However, this isomorphism from finite dimensional in Vector spaces needs to be replaced by finite projective modules.
+\end{example}
+
+ \begin{definition}
+ 	A natural transformation $\alpha: F \to G$ is called a natural isomorphism if each component is an isomorphism, or categorically if there it is an isomorphism in the category of natural transformations
+ \end{definition}
+ 
+\end{document}
