@@ -1,0 +1,150 @@
+\documentclass{article}
+
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}
+\usepackage{array}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newtcbtheorem{theo}%
+	{Theorem}{colback = blue!5!white,colframe = blue!50!black!50!}{theorem}
+	
+\newtcbtheorem{lemm}%
+	{Lemma}{colback = green!5!white,colframe = green!50!black!50!}{lemma}
+
+\newtcbtheorem{clai}%
+{Claim}{colback = blue!5!white,colframe = blue!50!black!50!}{claim}
+
+\newtcbtheorem{coroll}%
+	{Corollary}{colback = purple!5!white,colframe = purple!50!black!50!}{corollary}    
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\mb}[1]{\mathbb{#1}}
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mk}[1]{\mathfrak{#1}}
+\newcommand{\un}{\cup}
+\newcommand{\ic}{\cap}
+\pagestyle{fancy}
+\newcommand\size{1}% distance of nodes from center
+\DeclareFontFamily{U}{dmjhira}{}
+\DeclareFontShape{U}{dmjhira}{m}{n}{ <-> dmjhira }{}
+
+\DeclareRobustCommand{\yo}{\text{\usefont{U}{dmjhira}{m}{n}\symbol{"48}}}
+\begin{document}
+\textbf{Let's see what happens today}\\
+
+\textbf{Last Time} Began category theory overview/review\\
+
+\textbf{Today:} Equivalence of categories, Yoneda, and universal properties.\\
+
+\section*{Some properties of functors}
+
+\begin{definition}
+	A functor is called \\
+	(1): \textit{full} if it is surjective on hom-maps\\
+	(2): \textit{faithful} if it is injective on hom-maps (i.e. no information is lost)\\
+	(3): \textit{full faithful} full and faithful (bijective) on hom-maps \\
+	(4): \textit{Essentially surjective} if for all $Y \in D$, there exists an $X \in C$ such that $F(X) \cong Y$.\\
+(5): An \textit{equivalence of categories} if there exists $G: D \to C$ and natural isomorphisms 
+\[GF \cong id_c \quad \quad FG \cong id_d\]
+\end{definition}
+
+\begin{example}
+	The trivial category (one object, only the identity) and the walking isomorphism (two objects, and two nontrivial maps)
+\end{example}
+
+\begin{example}
+	Take $D$ the category of Sets, and $C = \text{Set}^{\text{inj}}$, which has all sets but morphisms are all injective maps.
+	There is the obvious inclusion functor into Set, it is faithful and essentially surjective but not full.
+\end{example}
+
+\begin{example}
+	Let $C$ be a nonempty category, the trivial category is a terminal object, and the unique map is always full and essentially surjective, but not usually faithful.
+\end{example}
+
+\begin{example}
+	Given a category $C$ and a subset $S$ of objects of $C$, the full subcategory on $S$ is the category with objects exactly $S$ and the Hom-sets are as full as they can be.\\
+There is the obvious inclusion functor, which is fully faithful.
+\end{example}
+
+\begin{example}
+	Consider the subcategory of Set spanned by the finite sets, we have the definition of the skeleton of this category (one object chosen for each isomorphism class)
+\end{example}
+
+\begin{theo}{}{}
+	A functor $F:C \to D$ is an equivalence of categories iff $F$ is fully faithful and essentially surjective.
+\end{theo}
+\begin{proof}
+	Careful use of AOC.
+\end{proof}
+
+\subsection*{Representability and Yoneda}
+
+\begin{definition}
+	For $C$ a category. A presheaf (of sets) on $C$ is a functor $C^{\text{op}} \to \text{Set}$.
+	\[\text{Psh}(C) = \text{Fun}(C^{\text{op}}, \text{Set})\]
+	\end{definition}
+
+\begin{example}
+	For each $X \in C$, write 
+	\[\text{yo}(C) \in \text{Psh}(C)\]
+	for the presheaf $\text{Hom}_c(-, X): C^{\text{op}} \to \text{Set}$
+\end{example}
+	
+\begin{definition}
+	We call $\yo(X)$, the presheaf represented by $X$. 
+	$F:C^{\text{op}} \to Set$ is representably if $F \cong \yo(X)$ for some $X \in C$.
+\end{definition}
+
+We may ask, if $F$ is representable, is $X$ in some sense unique?
+
+\begin{example}
+	The forgetful functors, Grp, Ring, Mod(A) to Set are representable by $\Z, \Z[x], A$. 
+\end{example}
+
+\begin{theo}{Yoneda Lemma}{}
+	For any functor $F: C \to \text{Set}$ and $c \in C$ there's a bijection
+	\[\text{Hom}_{Fun(C,\text{Set})}(\text{Hom}_C(c, -), F)  \simeq F(c)\]
+\end{theo}
+ 
+\begin{theo}{Yoneda Embedding}{}
+	The functor $\yo: C \to \text{Psh}(C)$ is fully faithful.
+\end{theo}
+
+\textbf{Observation:} If $F: C \to D$ is fully faithful and $F(c) \cong F(c')$, then $c \cong c'$.\\
+
+\textbf{Upshot:} If $\yo(c) \cong \yo(c')$ then $c \cong c'$
+
+\section*{Universal Properties}
+
+$k$ a field, $V,W$ are $k$-vector spaces.
+Better than working with the scary, unintuitive construction of $V \otimes_k W$, we should understand what linear maps out of $V \otimes_k W$ are.
+In particular, $\text{Hom}_{\text{Vect}(k)} (V \times W, U)$ are in bijection with bilinear maps $V \times W \to U$.
+Moreover, there is the "universal" linear map $V \times W \to V \otimes W$ sending $(v,w) \to v \otimes w$.
+Yoneda tells us that this "universal prop" defines $V \otimes W$ uniquely up to isomorphism.
+\end{document}
