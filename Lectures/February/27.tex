@@ -1,0 +1,164 @@
+\documentclass{article}
+
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}
+\usepackage{array}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newtcbtheorem{theo}%
+	{Theorem}{colback = blue!5!white,colframe = blue!50!black!50!}{theorem}
+	
+\newtcbtheorem{lemm}%
+	{Lemma}{colback = green!5!white,colframe = green!50!black!50!}{lemma}
+
+\newtcbtheorem{clai}%
+{Claim}{colback = blue!5!white,colframe = blue!50!black!50!}{claim}
+
+\newtcbtheorem{coroll}%
+	{Corollary}{colback = purple!5!white,colframe = purple!50!black!50!}{corollary}    
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+
+\pagestyle{fancy}
+\newcommand\size{1}% distance of nodes from center
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\mb}[1]{\mathbb{#1}}
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mk}[1]{\mathfrak{#1}}
+\newcommand{\un}{\cup}
+\newcommand{\ic}{\cap}
+\begin{document}
+\textbf{Last Time: } Gave specific (co)-limits and abelian categories.\\
+
+\textbf{Today: } Existence of (co)-limits, adjunctions.\\
+
+\textbf{Announcements: } Haine will be away this Friday (again), so we will have office hours on Thursday, 3:30 to 4:30. (Yay, not after class this tiem, but I'll have to skip 128A again..), not office hours on 3/15.\\
+
+\section{Existence of Limits}
+
+\begin{definition}
+	A category $C$ is finite if the set of $\text{Mor}(C)$ is a finite set. $C$ is essentially finite if $C \simeq$ finite category. A finite (co)limit is a (co)limit indexed by a finite category, e.g. equalizers, pullbacks, and finite products.
+\end{definition}
+
+Note this also says there is finitely many objects  (in bijection with the identity morphisms).
+
+\begin{theo}{}{}
+	Let $E$ be a category that has all equalizers and all products. 
+	Then for any category $I$ and diagram $F: I \to E$, the limit $\lim_I F$ exists and is given by 
+	\[\lim_I F \simeq eq \Big( \prod_{i \in \text{Obj(I)}}F(i) \rightrightarrows \prod_{f:x \to y \in \text{Mor}(I)}F(y)\Big)\]
+	Here the components of thte two arrows at $f:x \to y \in \text{Mor}(I)$ are defined by 
+	\[\alpha_f: \prod_{i \in \text{Obj}(i)}F(i) \xrightarrow{pr_y}F(y)\]
+	\[\beta_f: \prod_{i \in \text{Obj}(i)}F(i) \xrightarrow{pr_x}F(x) \xrightarrow{F(f)} F(y)\]
+
+\end{theo}
+
+Note the above theorem holds when we say finite products and finite categories.
+
+\begin{lemm}{}{}
+	$I$ a cateogry, $E$ a category with $I$-shaped limits. 
+	Then a choice of limit of each $I$-shaped diagram $I \to E$ assmebles into a functor
+	\[\lim_I \text{Fun(I, E)} \to E\]
+mapping $F \to \lim_I F$ which is unique up to unique ISO.
+\end{lemm}
+Slogan: Taking the limit is a functor!
+
+\section{ Adjunctions}
+
+\begin{definition}
+	An adjunction consists of functor $L:C \rightleftarrows D: R$ together with a natural isomorphism (in both of the variables)
+	\[\text{Hom}_D (L(c), d) \cong \text{Hom}_C(c, R(d))\]
+\end{definition}
+
+In this setting we say that $L$ is the left adjoint and $R$ is the right adjoint.
+\begin{example}
+	In Set we have 'currying'
+	\[\text{Hom}_{\text{Set}}(X \times Y, Z) \cong \text{Hom}_{\text{Set}}(X, \text{Hom}_{\text{Set}}(Y,Z))\]
+\end{example}
+ 
+\begin{example}
+	$A$ a ring, then 
+\[\text{Hom}_{\text{Mod(A)}}(L \otimes_A M, N) \cong \text{Hom}_{\text{Mod(A)}}(L, \text{Hom}_{\text{A}}(M,N))\]
+
+\end{example}
+
+ \begin{example}
+	 $A$ a ring and $S$ a set, denote $A^{(S)} = \bigoplus_S A$ the free $A-$module w basis of $S$.
+	 and we have 
+	 \[\text{Hom}_{\text{Mod(A)}}(A^{(S)}, M) \cong \text{Hom}_{\text{Set}}(S, M))\]
+one of many examples of a free and forgetful adjunction
+
+\end{example}
+\begin{example}
+	$A$ a ring, $S$ a set,, denote $A[S] = A[t_s|s \in S]$  the polynomial ring w/ variables in $S$.
+	we have
+	\[\text{Hom}_{\text{alg(A)}}(A[S], B) \cong \text{Hom}_{\text{Set}}(S, B))\]
+
+\end{example}
+
+\begin{example}
+	((co)extension/restriction of scalars) Given a  ring hom $\phi: A \to B$, we can realize $B$ as an $A$-module.\\
+	\indent	(1) Extension of Scalars: $\phi^*: B \otimes_A (-): \text{Mod}(A) \to \text{Mod}(B)$.\\
+	\indent (2) Restriction of Scalars: $\phi_*: \text{Mod}(B) \to \text{Mod}(B)$, sends some $N$ to the abelian group $N$ by $a \cdot n = \phi(a) \cdot n$\\
+	\indent (3) Coextension of Scalars: $\phi = \text{Hom}_A(B, -): \text{Mod}(A) \to \text{Mod}(B)$.
+	If $M$ is an $A$-module, then the $B$-mod str on $\text{Hom}_A(B,m)$ is given by 
+	\[(b \cdot f)(x) = f(bx)\]
+We can check that there are adjunctions, extension of scalars is left adjoint to restriction of scalars which is left adjoint to coextension of scalars.
+\end{example}
+
+\subsection{Theorems about adjoints}
+
+\begin{theo}{}{}
+	Left/right adjoints are unique up to unique iso.
+\end{theo}
+Comment: Constructions of sheafification.
+
+\begin{theo}{(Adjoints compose)}{}
+	Given adjunctions $C \rightleftarrows D \rightleftarrows E$, then the composite of the left adjoints is left adjoint to the composite of the right adjoints.
+\end{theo}
+\begin{proof}
+	We have 
+	\[\text{Hom}_E(L'Lc, e) \cong \text{Hom}_D(Lc, R'e) \cong \text{Hom}_C(c, RR'e)\]
+	and natural isomorphisms compose.
+\end{proof}
+
+\begin{theo}{(RAPL) dually (LAPC)}{}
+Right adjoints preserve limits and dually left adjoints preserve colimits.	
+\end{theo}
+
+\begin{coroll}{}{}
+	$M \otimes_A (-): \text{Mod}(A) \to \text{Mod}(A)$ preserves colimits, in particular
+	\[M \otimes_A \bigoplus_i N_i \cong \bigoplus_i (M \otimes_A N_i)\]
+\end{coroll}
+
+\begin{definition}
+	$M \in \text{Mod}(A)$ is flat if the following equivalent conditions hold:\\
+	\indent (1) $M \otimes_A (-): \text{Mod}(A) \to \text{Mod}(A)$ preserves finite limits\\
+	\indent (2) This functor is "left exact:", preserves injections after tensoring.
+\end{definition}
+
+\end{document}
