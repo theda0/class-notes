@@ -1,0 +1,161 @@
+\documentclass{article}
+
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{quiver}
+\usetikzlibrary{matrix}
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}
+\usepackage{array}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newtcbtheorem{theo}%
+	{Theorem}{colback = blue!5!white,colframe = blue!50!black!50!}{theorem}
+	
+\newtcbtheorem{lemm}%
+	{Lemma}{colback = green!5!white,colframe = green!50!black!50!}{lemma}
+
+\newtcbtheorem{clai}%
+{Claim}{colback = blue!5!white,colframe = blue!50!black!50!}{claim}
+
+\newtcbtheorem{coroll}%
+	{Corollary}{colback = purple!5!white,colframe = purple!50!black!50!}{corollary}    
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+
+\pagestyle{fancy}
+\newcommand\size{1}% distance of nodes from center
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\mb}[1]{\mathbb{#1}}
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mk}[1]{\mathfrak{#1}}
+\newcommand{\un}{\cup}
+\newcommand{\ic}{\cap}
+
+\begin{document}
+\textbf{Today} Prove the Theorem stated at the end of last class (at least in the faithfully flat case)\\
+
+Recall: 
+\begin{definition}
+	A ring hom $\phi: A \to B$ is \\
+	\indent(1) an effctive descent mor if $\forall M \in \text{Mod}(A)$ tensoring the below diagram with $A$ is an equalizer
+	% https://q.uiver.app/#q=WzAsMyxbMCwwLCJBIl0sWzIsMCwiQiJdLFs0LDAsIkIgXFxvdGltZXNfQSBCIl0sWzAsMSwiXFxwaGkiXSxbMSwyLCJcXHBoaSBcXG90aW1lcyBpZCIsMCx7Im9mZnNldCI6LTN9XSxbMSwyLCJpZCBcXG90aW1lc1xccGhpIiwyLHsib2Zmc2V0IjoyfV1d
+\[\begin{tikzcd}
+	A && B && {B \otimes_A B}
+	\arrow["\phi", from=1-1, to=1-3]
+	\arrow["{\phi \otimes id}", shift left=3, from=1-3, to=1-5]
+	\arrow["{id \otimes\phi}"', shift right=2, from=1-3, to=1-5]
+\end{tikzcd}\]
+\indent (2) Universally injective if $\forall M \in \text{Mod}(A)$ the following is also injective
+\[\phi \otimes id_M: M \cong A \otimes_A M \to B \otimes_A M\]
+\end{definition}
+
+\begin{theo}{}{}
+	$\phi$ is of effective descent $\Longleftrightarrow$ $\phi$ is universally injective.
+\end{theo}
+
+\textbf{Proposition:} $\phi$ is universally injective $\Longrightarrow$ Spec($\phi$) $: \text{Spec}(B) \to \text{Spec}(A)$ is surjective.
+
+\begin{proof}
+	STS that for all $\mk{p} \in \text{Spec}(A), \emptyset \neq \text{Spec}(\phi)^{-1}(\{\mk{p}\}) = \text{Spec}(B \otimes_A \kappa(\mk{p}))$.
+	Equivalently, WTS $B \otimes_A \kappa(\mk{p}) \neq 0$. Since $\phi$ is universally injective, $\exists \kappa(\mk{p}) \hookrightarrow B \otimes_A\kappa(\mk{p})$, and the former is nonzero as it is a field.
+\end{proof}
+
+Note that if $\text{Spec}(\phi)$ is surjective, $\phi$ need not be injective.\\
+Our example is $A$ a nonreduced ring, $\phi: A \to A_{\text{red}} := A/\text{nil}(A)$.
+In this case, $\text{Spec}(\phi)$ is a homeo (from homework), but $\phi$ isn't injective.\\
+
+\begin{definition}
+	$\phi:A \to B$ any ring hom. The cat Des($\phi$) of descent data has \\
+	\indent (1) Objs, $(N, \theta: N \otimes_A B \simeq B \otimes_A N \text{ of } B \otimes_A B-\text{modules})$ such that the "cocycle condition" is satisfied, i.e. the below diagram commutes
+	% https://q.uiver.app/#q=WzAsMyxbMCwwLCJOIFxcb3RpbWVzIEIgXFxvdGltZXMgQiJdLFsyLDAsIkIgXFxvdGltZXMgTiBcXG90aW1lcyBCIl0sWzEsMiwiQiBcXG90aW1lcyBCIFxcb3RpbWVzIE4iXSxbMCwxLCJcXHRoZXRhX3sxLDJ9Il0sWzEsMiwiXFx0aGV0YV97MiwzfSJdLFsyLDAsIlxcdGhldGFfezEsM30iXV0=
+\[\begin{tikzcd}
+	{N \otimes B \otimes B} && {B \otimes N \otimes B} \\
+	\\
+	& {B \otimes B \otimes N}
+	\arrow["{\theta_{1,2}}", from=1-1, to=1-3]
+	\arrow["{\theta_{2,3}}", from=1-3, to=3-2]
+	\arrow["{\theta_{1,3}}", from=3-2, to=1-1]
+\end{tikzcd}\]
+\indent (1) Mors $f: N \to N'$ compatible with $\theta$.
+\end{definition}
+
+Note: There's a functor 
+\[\phi^* \text{Mod}(A) \to \text{Des}(\phi)\]
+sending 
+\[M \to (B \otimes_A M)\]
+\begin{theo}{}{}
+	TFAE for any ring hom $\phi: A \to B$\\
+	\indent (1) $\phi$ is an effective descent morphism.\\
+	\indent (2) $\phi^*: \text{Mod}(A) \to \text{Des}(\phi)$ is fully faithful\\
+	\indent (3) $\phi^*: \text{Mod}(A) \to \text{Des}(\phi)$ is an equivalence of categories.
+\end{theo}
+
+\textbf{Remark:} $\text{Des}(\phi)$ has all colims and they're computed componentwise.
+The forgetful functor from $\text{Des}(\phi) \to \text{Mod}(B)$ preserves colimits.\\
+
+We can use this to prove that finite preservation is flat local, we turned it into a characterization of hom (preserves filtered colimits) from the homework.
+Now that we have a categorical interpretation, we can sort of pass it through these functors, though this is just a sort of sketch.\\
+
+\textbf{Idea of Des($\phi$)} Want to say that if $\phi$ is an effective descent morphism, then Mod($A$) is the limit (in categories of 
+% https://q.uiver.app/#q=WzAsMixbMCwwLCJcXHRleHR7TW9kfShCKSJdLFsyLDAsIlxcdGV4dHtNb2R9KEJcXG90aW1lc19BIEIpIl0sWzAsMSwiKC0pXFxvdGltZXMgQiIsMix7Im9mZnNldCI6M31dLFswLDEsIigtKVxcb3RpbWVzIEIiLDAseyJvZmZzZXQiOi0zfV1d
+\[\begin{tikzcd}
+	{\text{Mod}(B)} && {\text{Mod}(B\otimes_A B)}
+	\arrow["{(-)\otimes B}"', shift right=3, from=1-1, to=1-3]
+	\arrow["{(-)\otimes B}", shift left=3, from=1-1, to=1-3]
+\end{tikzcd}\]
+Then $\text{Des}(\phi)$ is the homotopy limit of
+% https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXHRleHR7TW9kfShCKSJdLFsxLDAsIlxcdGV4dHtNb2R9KEJcXG90aW1lc19BIEIpIl0sWzIsMCwiXFx0ZXh0e01vZH0oQlxcb3RpbWVzX0EgQiBcXG90aW1lcyBfQSBCKSJdLFswLDEsIigtKVxcb3RpbWVzIEIiLDIseyJvZmZzZXQiOjN9XSxbMCwxLCIoLSlcXG90aW1lcyBCIiwwLHsib2Zmc2V0IjotM31dLFsxLDJdLFsxLDIsIiIsMix7Im9mZnNldCI6M31dLFsxLDIsIiIsMix7Im9mZnNldCI6LTN9XV0=
+\[\begin{tikzcd}
+	{\text{Mod}(B)} & {\text{Mod}(B\otimes_A B)} & {\text{Mod}(B\otimes_A B \otimes _A B)}
+	\arrow["{(-)\otimes B}"', shift right=3, from=1-1, to=1-2]
+	\arrow["{(-)\otimes B}", shift left=3, from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[shift right=3, from=1-2, to=1-3]
+	\arrow[shift left=3, from=1-2, to=1-3]
+\end{tikzcd}\]
+which is apparently really useful in modern algebraic geometry.\\
+
+\begin{lemm}{}{}
+	$\phi^*$ has a right adjoint.
+\end{lemm}
+\textbf{Construction: } Define a functor
+\[\phi_*L \text{Des}(\phi): \to \text{Mod}(A)\]
+as follows. Given $(N, \theta: N \otimes_A B \simeq B \otimes_A N$  define $\phi_*(N, \theta)$ to be the equalizer of 
+% https://q.uiver.app/#q=WzAsMixbMCwwLCJOIl0sWzIsMCwiQiBcXG90aW1lc19BIE4iXSxbMCwxLCJkXzA6IHggXFx0byAxIFxcb3RpbWVzIHgiLDAseyJvZmZzZXQiOi0zfV0sWzAsMSwiZF4xX3tcXHRoZXRhfTogeCBcXHRvIFxcdGhldGEoeCBcXG90aW1lcyAxKSIsMix7Im9mZnNldCI6M31dXQ==
+\[\begin{tikzcd}
+	N && {B \otimes_A N}
+	\arrow["{d_0: x \to 1 \otimes x}", shift left=3, from=1-1, to=1-3]
+	\arrow["{d^1_{\theta}: x \to \theta(x \otimes 1)}"', shift right=3, from=1-1, to=1-3]
+\end{tikzcd}\]
+note these are $A$-mod maps, and so is all $x \in N$ such that $1 \otimes x = \theta(x \otimes 1)$
+which is functorial by how we defined the descent data.\\
+
+To show adjointness, we will construct the unit and counit of the adjunction.\\
+
+\textbf{Unit:}
+\[\phi_* \phi^* (M) = \phi_*(B \otimes_A M, can)\]
+\end{document}
